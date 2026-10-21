@@ -1,0 +1,9 @@
+# Private working files the skill creates. Never commit these.
+when-you-return*.md
+*-report.md
+spam-email-report*.md
+php-exposure-report*.md
+results*.tsv
+domains*.txt
+*.local.*
+.env

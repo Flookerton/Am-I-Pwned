@@ -1,0 +1,12 @@
+{
+  "name": "am-i-pwned",
+  "description": "Find out which of your accounts are exposed to PHP2Shell.",
+  "owner": { "name": "Flookerton" },
+  "plugins": [
+    {
+      "name": "am-i-pwned",
+      "source": "./",
+      "description": "PHP2Shell exposure check for your own accounts. Passive only."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "am-i-pwned",
+  "version": "1.0.0",
+  "description": "PHP2Shell (CVE-2026-109618/109619) exposure check: find which of your accounts sit on sites running PHP, rank the risk, and know what to delete first. Passive only.",
+  "author": { "name": "Flookerton" },
+  "homepage": "https://github.com/Flookerton/Am-I-Pwned",
+  "repository": "https://github.com/Flookerton/Am-I-Pwned",
+  "license": "MIT",
+  "keywords": ["php", "php2shell", "cve-2026-109618", "cve-2026-109619", "security", "privacy", "breach"]
+}
