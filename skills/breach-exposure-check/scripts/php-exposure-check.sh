@@ -8,17 +8,27 @@
 # Usage:   ./php-exposure-check.sh domains.txt > results.tsv
 # Input:   one domain per line (e.g. example.com)
 # Output:  TSV: domain, status, verdict, php_version, evidence
+#
+# Verdicts: PHP-confirmed, PHP-likely, not-php(<platform>), no-php-signal,
+#           dns-missing  (the name doesn't resolve: a candidate for "gone", confirm before saying so)
+#           unreachable  (resolves but no answer: blocked, down, or a network hiccup; treat as unknown)
 
 set -u
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36"
 PARALLEL="${PARALLEL:-8}"
 
+# Native Windows curl (e.g. under Git Bash) can't write to MSYS paths like /tmp. Hand it a Windows path.
+winpath() { if command -v cygpath >/dev/null 2>&1; then cygpath -m "$1"; else printf '%s' "$1"; fi; }
+
 check() {
   d="$1"
-  tmp="$(mktemp -d)"
+  tmp="$(mktemp -d)"; tw="$(winpath "$tmp")"
   code=$(curl -s -L --max-time 20 --max-redirs 5 -A "$UA" \
-    -D "$tmp/h" -o "$tmp/b" -w '%{http_code}' "https://$d/" 2>/dev/null)
-  [ -s "$tmp/h" ] || { printf '%s\t%s\t%s\t%s\t%s\n' "$d" "${code:-000}" "unreachable" "" ""; rm -rf "$tmp"; return; }
+    -D "$tw/h" -o "$tw/b" -w '%{http_code}' "https://$d/" 2>/dev/null); rc=$?
+  if [ ! -s "$tmp/h" ]; then
+    [ "$rc" -eq 6 ] && v="dns-missing" || v="unreachable"
+    printf '%s\t%s\t%s\t%s\t%s\n' "$d" "${code:-000}" "$v" "" "curl_exit:$rc"; rm -rf "$tmp"; return
+  fi
 
   h=$(tr -d '\r' < "$tmp/h" | tr 'A-Z' 'a-z')
   b=$(head -c 600000 "$tmp/b" 2>/dev/null | tr -d '\000' | tr 'A-Z' 'a-z')
@@ -63,7 +73,15 @@ check() {
   printf '%s\t%s\t%s\t%s\t%s\n' "$d" "$code" "$verdict" "$ver" "${ev# }"
   rm -rf "$tmp"
 }
-export -f check
+export -f check winpath
 export UA
+
+# Preflight: if a known-good site can't be fetched, every result would read "unreachable". Stop instead.
+pre="$(mktemp -d)"
+if ! curl -s --max-time 20 -A "$UA" -D "$(winpath "$pre")/h" -o /dev/null https://example.com/ 2>/dev/null || [ ! -s "$pre/h" ]; then
+  echo "Preflight failed: couldn't fetch https://example.com/. Check your internet connection and curl, then rerun." >&2
+  rm -rf "$pre"; exit 3
+fi
+rm -rf "$pre"
 
 grep -v '^\s*$' "${1:-/dev/stdin}" | xargs -P "$PARALLEL" -I{} bash -c 'check "$@"' _ {}

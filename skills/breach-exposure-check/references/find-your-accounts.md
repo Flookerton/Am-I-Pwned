@@ -2,6 +2,8 @@
 
 The domain list for the exposure check comes from the user's own inbox: every service that ever sent them a sign-up or security email.
 
+**Tell the user up front:** you need search access to their email. You see only the sender, subject line and date that appear in search results, and you never open a message.
+
 ## Tool access (preflight)
 Try these in order:
 1. **Gmail connector**, using `search_threads` with a metadata or minimal view. If calls fail with "connection invalidated", the user reconnects it in their connector settings. A session that's already running may not pick up the reconnect, so start a new session.
@@ -33,7 +35,7 @@ Gmail's class names (`zA`, `zE`, `xW`) change occasionally. If nothing matches, 
 Typical result: 100–150 services from about 5 minutes of paging.
 
 ## Privacy rules
-- Read only the sender, subject and date. Skip personal mail.
+- Read only the sender, subject and date from the results list. Don't open messages. Skip personal mail.
 - Keep the list out of long-term memory and out of anything published or committed. `domains.txt` is private.
 - Never take the user's password, and never read an email body unless the user asks for it.
 
