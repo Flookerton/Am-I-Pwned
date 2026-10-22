@@ -37,7 +37,8 @@ Answers one question: *which sites holding my data run the technology that was j
    See `references/tiers.md` → *Confirming "Gone"*.
 
 5. **Sort into tiers** (`references/tiers.md`) and write a report for the user:
-   - 🔴 **Act now:** a version whose branch gets no official fix (upstream won't patch it, and the host may not have either), or a supported version older than the fixed release.
+   - 🔴 **Act now:** a version whose branch gets no official fix (upstream won't patch it, and the host may not have either), or a supported version still behind the fix more than a week after the release.
+   - 🟡 **Watch, behind the fix:** a supported version older than the fixed release, in the first week. *A fix exists, and this site hasn't shown it yet.* Recheck after a week.
    - 🟡 **Watch:** technology confirmed but version hidden, or a likely match on an account already marked for deletion.
    - 🟢 **Lower risk:** the technology only appears on the company's marketing site, while accounts usually live on a separate system.
    - ⚪ **Gone:** the domain is confirmed unregistered. There's no one to ask for deletion.
@@ -58,10 +59,13 @@ Answers one question: *which sites holding my data run the technology that was j
 ## Worked example (PHP2Shell, October 2026)
 Primary sources: [php.net security advisory](https://www.php.net/archive/2026.php#2026-10-21-5), [GHSA-w8hw-w9fx-j79w](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w) (CVE-2026-109618), [GHSA-6wmf-4rv5-p3rp](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp) (CVE-2026-109619).
 
-Two remote code execution flaws in PHP core, CVSS 9.2. Fixed in 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35. PHP 8.1 and older get no official release. The PHP team published source-only patches for 7.4–8.1, and distributions and LTS vendors received the fix in advance. PHP reports a demonstrated unauthenticated exploit against mod_php.
+Two remote code execution flaws in PHP core, CVSS 9.2. Fixed in 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35. PHP 8.1 and older get no official release. The PHP team published source-only patches for 7.4–8.1, and distributions and LTS vendors received the fix in advance. PHP reports a demonstrated unauthenticated exploit, specifically against mod_php setups.
 
-Run on 141 real accounts:
-- 3 confirmed PHP: one showing **7.4.33** (no official fix, so 🔴), one on **8.4.26** (one release behind the fix, so 🔴).
-- 9 using a PHP CMS, mostly WordPress marketing sites (🟢/🟡).
-- 1 domain confirmed unregistered (⚪); 1 registered with no website (❔).
+Run on 141 real accounts (3 + 9 + 126 + 1 + 2 = 141):
+- 3 confirmed PHP: one showing **7.4.33** (no official fix, so 🔴); one on **8.4.26** on release day (behind the fix, so 🟡, recheck in a week); one with the version hidden (🟡).
+- 9 likely PHP: a PHP CMS, mostly WordPress marketing sites (🟢/🟡).
 - 126 with no signal or a non-PHP platform. That's the majority, as expected.
+- 1 domain confirmed unregistered (⚪).
+- 2 unknown (❔): one registered domain with no website, one retailer that blocks automated checks.
+
+Two days later the 8.4.26 site no longer showed a version at all, a good example of why "behind the fix" gets a week before it counts as Act now.

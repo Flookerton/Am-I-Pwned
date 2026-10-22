@@ -2,7 +2,8 @@
 
 | Tier | When | Recommended action |
 |---|---|---|
-| 🔴 **Act now** | The version shown is on a branch that gets **no official fix** (upstream won't patch it, and the host may not have either), **or** a supported version older than the fixed release | Delete the account or send a deletion request. Remove saved cards. Change reused passwords. Rerun in a few days, since a supported version may get upgraded. |
+| 🔴 **Act now** | The version shown is on a branch that gets **no official fix** (upstream won't patch it, and the host may not have either); **or** a supported version still behind the fix **more than a week** after the release | Delete the account or send a deletion request. Remove saved cards. Change reused passwords. |
+| 🟡 **Watch: behind the fix** | A supported version older than the fixed release, within the first week. *A fix exists, and this site hasn't shown it yet.* Hosts often update within days. | Recheck after a week. Move to 🔴 if it's still behind. Unique password + 2FA meanwhile. |
 | 🟡 **Watch** | Technology confirmed (cookie or header) but the version is hidden; **or** a likely match (CMS markers) on an account already marked for deletion | Unique password + 2FA. Move deletion up the list. |
 | 🟢 **Lower risk** | Technology appears only on the public marketing site (WordPress/Drupal homepage), and the account system is likely separate (e.g. a `login.` or `app.` subdomain) | No urgent action. Normal hygiene. |
 | ⚪ **Gone** | **Confirmed** dead: the name doesn't resolve on two independent resolvers **and** the registry (RDAP/WHOIS) shows the domain unregistered or expired | No one left to ask for deletion. Change that password anywhere it was reused. |

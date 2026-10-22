@@ -27,7 +27,8 @@ Search access to your email: a Gmail connector, or your own signed-in browser vi
 - Call a company "gone" unless the domain is confirmed unregistered
 
 ## How to read the results
-- **Act now:** the site shows a PHP version with no official fix, or one older than the fix. A version number doesn't prove the server is unpatched, since distributions backport fixes without changing it. *Upstream won't patch it, and the host may not have either.*
+- **Act now:** the site shows a PHP version with no official fix (8.1 or older). *Upstream won't patch it, and the host may not have either.* A version number doesn't prove the server is unpatched, since distributions backport fixes without changing it.
+- **Watch, behind the fix:** a supported version older than the fix. *A fix exists, and this site hasn't shown it yet.* Hosts often update within days, so recheck after a week and treat it as Act now if it's still behind.
 - **Gone:** confirmed by DNS **and** a registry lookup. A site that just didn't answer is **Unknown**, never Gone.
 
 ## Install
@@ -45,7 +46,7 @@ bash skills/breach-exposure-check/scripts/php-exposure-check.sh domains.txt > re
 Needs bash and curl. Works on macOS, Linux, WSL and Git Bash on Windows. It checks your connection first and stops if a known-good site can't be reached, so a network problem can't make every site look dead.
 
 ## From one real inbox
-144 accounts. 141 sites checked. 3 confirmed on PHP. 1 showing PHP 7.4 (no official fix). 1 a patch behind. 1 company confirmed gone, 1 unknown. The other 126: no signal or not PHP.
+144 accounts, 141 sites checked: **3** confirmed PHP, **9** likely PHP (WordPress, Drupal), **126** no signal or not PHP, **1** gone (DNS and registry confirmed), **2** unknown (no answer). Of the 3 confirmed, one shows PHP 7.4 (no official fix) and one was a patch behind on release day.
 
 ## Coming soon
 **anonymize-me**: delete the accounts it finds, get off people-search sites, kill spam calls.
